@@ -1,0 +1,20 @@
+# Set the target to the chip the rpi-pico uses
+[build]
+target = "thumbv6m-none-eabi"
+
+# Set some configurations for the rpi-pico
+[target.thumbv6m-none-eabi]
+# Arguments passed to rustc
+# --nmagic turns off page alignment of sections to save flash space
+# -Tlink.x tells the linker to use link.x as the linker (added by cortex-m-rt)
+# inline-threshold=5 makes the compiler more aggresive with inlining functions
+# no-vectorize-loops: turns of the loop vectorizer
+rustflags = [
+    "-C", "link-arg=--nmagic",
+    "-C", "link-arg=-Tlink.x",
+    "-C", "inline-threshold=5",
+    "-C", "no-vectorize-loops"
+]
+
+# Converts the binary to uf2 and sends it to the pico
+runner = "elf2uf2-rs -d"
